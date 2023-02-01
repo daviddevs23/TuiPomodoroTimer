@@ -7,5 +7,5 @@ run: default
 clean:
 	rm -rf pomo-tui
 
-install:
-	echo "TDB"
+install: default
+	cp pomo-tui ding.ogg /usr/local/bin/
