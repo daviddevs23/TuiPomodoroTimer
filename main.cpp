@@ -134,7 +134,7 @@ void prettyPrint(int time, int sleepSeconds, std::string session) {
     mvprintw(3 + yOffset, xOffset, "%s", message[3].c_str());
     mvprintw(4 + yOffset, xOffset, "%s", message[4].c_str());
 
-    mvprintw(5 + yOffset, (col - session.size())/2, "%s", session.c_str());
+    mvprintw(5 + yOffset, (col - session.size()) / 2, "%s", session.c_str());
 
     // Print Stuff
     refresh();
@@ -182,6 +182,7 @@ int main(int argc, char *argv[]) {
         for (int work = workTime; work >= 0; work--) {
             prettyPrint(work, 1, "Focused Work");
         }
+        std::system("canberra-gtk-play -f ding.ogg");
 
         // Short Break
         if (session + 1 != sessions) {
@@ -189,11 +190,13 @@ int main(int argc, char *argv[]) {
                 prettyPrint(relax, 1, "Short Break");
             }
         }
+        std::system("canberra-gtk-play -f ding.ogg");
     }
     // Long Break
     for (int longRelax = longBreak; longRelax >= 0; longRelax--) {
         prettyPrint(longRelax, 1, "Long Break");
     }
+    std::system("canberra-gtk-play -f ding.ogg");
     // Close the ncurse tui
     endwin();
 
