@@ -1,5 +1,5 @@
 default:
-	g++ main.cpp -lncurses -o pomo-tui
+	g++ main.cpp -lncursesw -o pomo-tui
 
 run: default
 	./pomo-tui 25 5 15 4

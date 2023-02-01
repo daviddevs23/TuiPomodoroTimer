@@ -3,76 +3,138 @@
 #include <unistd.h>
 
 #include <iostream>
+#include <unordered_map>
 
-int one[5][3] =     {{0,1,0},
-                     {0,1,0},
-                     {0,1,0},
-                     {0,1,0},
-                     {0,1,0}};
-
-int two[5][3] =     {{1,1,1},
-                     {0,0,1},
-                     {1,1,1},
-                     {1,0,0},
-                     {1,1,1}};
-
-int three[5][3] =   {{1,1,1},
-                     {0,0,1},
-                     {1,1,1},
-                     {0,0,1},
-                     {1,1,1}};
-
-int four[5][3] =    {{1,0,1},
-                     {1,0,1},
-                     {1,1,1},
-                     {0,0,1},
-                     {0,0,1}};
-
-int five[5][3] =    {{1,1,1},
-                     {1,0,0},
-                     {1,1,1},
-                     {0,0,1},
-                     {1,1,1}};
-
-int six[5][3] =     {{1,1,1},
-                     {1,0,0},
-                     {1,1,1},
-                     {1,0,1},
-                     {1,1,1}};
-
-int seven[5][3] =   {{1,1,1},
-                     {0,0,1},
-                     {0,0,1},
-                     {0,0,1},
-                     {0,0,1}};
-
-int eight[5][3] =   {{1,1,1},
-                     {1,0,1},
-                     {1,1,1},
-                     {1,0,1},
-                     {1,1,1}};
-
-int nine[5][3] =    {{1,1,1},
-                     {1,0,1},
-                     {1,1,1},
-                     {0,0,1},
-                     {0,0,1}};
-
-int colon[5][3] =   {{0,0,0},
-                     {0,1,0},
-                     {0,0,0},
-                     {0,1,0},
-                     {0,0,0}};
+struct Numbers {
+    std::string first{};
+    std::string second{};
+    std::string third{};
+    std::string fourth{};
+    std::string fifth{};
+};
 
 // Utility function to pretty print
-void prettyPrint(int time, int sleepSeconds) {
+void prettyPrint(int time, int sleepSeconds, std::string session) {
+    Numbers zero;
+    zero.first = "###";
+    zero.second = "# #";
+    zero.third = "# #";
+    zero.fourth = "# #";
+    zero.fifth = "###";
+
+    Numbers one;
+    one.first = "#";
+    one.second = "#";
+    one.third = "#";
+    one.fourth = "#";
+    one.fifth = "#";
+
+    Numbers two;
+    two.first = "###";
+    two.second = "  #";
+    two.third = "###";
+    two.fourth = "#  ";
+    two.fifth = "###";
+
+    Numbers three;
+    three.first = "###";
+    three.second = "  #";
+    three.third = "###";
+    three.fourth = "  #";
+    three.fifth = "###";
+
+    Numbers four;
+    four.first = "# #";
+    four.second = "# #";
+    four.third = "###";
+    four.fourth = "  #";
+    four.fifth = "  #";
+
+    Numbers five;
+    five.first = "###";
+    five.second = "#  ";
+    five.third = "###";
+    five.fourth = "  #";
+    five.fifth = "###";
+
+    Numbers six;
+    six.first = "###";
+    six.second = "#  ";
+    six.third = "###";
+    six.fourth = "# #";
+    six.fifth = "###";
+
+    Numbers seven;
+    seven.first = "###";
+    seven.second = "  #";
+    seven.third = "  #";
+    seven.fourth = "  #";
+    seven.fifth = "  #";
+
+    Numbers eight;
+    eight.first = "###";
+    eight.second = "# #";
+    eight.third = "###";
+    eight.fourth = "# #";
+    eight.fifth = "###";
+
+    Numbers nine;
+    nine.first = "###";
+    nine.second = "# #";
+    nine.third = "###";
+    nine.fourth = "  #";
+    nine.fifth = "  #";
+
+    std::unordered_map<int, Numbers> numbers;
+    numbers[0] = zero;
+    numbers[1] = one;
+    numbers[2] = two;
+    numbers[3] = three;
+    numbers[4] = four;
+    numbers[5] = five;
+    numbers[6] = six;
+    numbers[7] = seven;
+    numbers[8] = eight;
+    numbers[9] = nine;
+
     int minutes = (int)(time / 60);
     int seconds = time % 60;
-    std::string printChar = "#";
 
     // Screen dimensions
     int row, col{};
     getmaxyx(stdscr, row, col);
+
+    // Unholy garbage
+    int values[4] = {(minutes / 10), (minutes % 10), (seconds / 10),
+                     (seconds % 10)};
+    std::string message[5]{};
+
+    message[0] = numbers[values[0]].first + " " + numbers[values[1]].first +
+                 "   " + numbers[values[2]].first + " " +
+                 numbers[values[3]].first;
+    message[1] = numbers[values[0]].second + " " + numbers[values[1]].second +
+                 " # " + numbers[values[2]].second + " " +
+                 numbers[values[3]].second;
+    message[2] = numbers[values[0]].third + " " + numbers[values[1]].third +
+                 "   " + numbers[values[2]].third + " " +
+                 numbers[values[3]].third;
+    message[3] = numbers[values[0]].fourth + " " + numbers[values[1]].fourth +
+                 " # " + numbers[values[2]].fourth + " " +
+                 numbers[values[3]].fourth;
+    message[4] = numbers[values[0]].fifth + " " + numbers[values[1]].fifth +
+                 "   " + numbers[values[2]].fifth + " " +
+                 numbers[values[3]].fifth;
+
+    int xOffset = (col - message[0].length()) / 2;
+    int yOffset = (row - 5) / 2;
+
+    mvprintw(0 + yOffset, xOffset, "%s", message[0].c_str());
+    mvprintw(1 + yOffset, xOffset, "%s", message[1].c_str());
+    mvprintw(2 + yOffset, xOffset, "%s", message[2].c_str());
+    mvprintw(3 + yOffset, xOffset, "%s", message[3].c_str());
+    mvprintw(4 + yOffset, xOffset, "%s", message[4].c_str());
+
+    mvprintw(5 + yOffset, (col - session.size())/2, "%s", session.c_str());
 
     // Print Stuff
     refresh();
@@ -109,34 +171,28 @@ int main(int argc, char *argv[]) {
     int longBreak = atoi(argv[3]) * 60;
     int sessions = atoi(argv[4]);
 
+    // Start ncurse
     initscr();
+    curs_set(0);
+    setlocale(LC_ALL, "");
+
     // Run through the number of sessions
     for (int session = 0; session < sessions; session++) {
         // Work Time
         for (int work = workTime; work >= 0; work--) {
-            printw("Work: %02d:%02d", (int)(work / 60), work % 60);
-
-            refresh();
-            sleep(1);
-            clear();
+            prettyPrint(work, 1, "Focused Work");
         }
 
         // Short Break
-        for (int relax = shortBreak; relax >= 0; relax--) {
-            printw("Relax: %02d:%02d", (int)(relax / 60), relax % 60);
-
-            refresh();
-            sleep(1);
-            clear();
+        if (session + 1 != sessions) {
+            for (int relax = shortBreak; relax >= 0; relax--) {
+                prettyPrint(relax, 1, "Short Break");
+            }
         }
     }
     // Long Break
     for (int longRelax = longBreak; longRelax >= 0; longRelax--) {
-        printw("Long Relax: %02d:%02d", (int)(longRelax / 60), longRelax % 60);
-
-        refresh();
-        sleep(1);
-        clear();
+        prettyPrint(longRelax, 1, "Long Break");
     }
     // Close the ncurse tui
     endwin();
