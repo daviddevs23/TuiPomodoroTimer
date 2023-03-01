@@ -182,7 +182,7 @@ int main(int argc, char *argv[]) {
         for (int work = workTime; work >= 0; work--) {
             prettyPrint(work, 1, "Focused Work");
         }
-        std::system("canberra-gtk-play -f ding.ogg");
+        beep();
 
         // Short Break
         if (session + 1 != sessions) {
@@ -190,13 +190,13 @@ int main(int argc, char *argv[]) {
                 prettyPrint(relax, 1, "Short Break");
             }
         }
-        std::system("canberra-gtk-play -f ding.ogg");
+        beep();
     }
     // Long Break
     for (int longRelax = longBreak; longRelax >= 0; longRelax--) {
         prettyPrint(longRelax, 1, "Long Break");
     }
-    std::system("canberra-gtk-play -f ding.ogg");
+    beep();
     // Close the ncurse tui
     endwin();
 
